@@ -2,181 +2,163 @@
 
 ## Overview
 
-The Football Match Simulator is a web application that simulates a football (soccer) match between two user-defined teams. It provides a real-time updating display of match statistics, a chronological timeline of events, and a final match result including the winner. The application aims to provide an engaging and realistic simulation experience with intuitive user interaction.
+The Football Match Simulator is a web application that simulates a football (soccer) match, providing a real-time updated timeline and statistics display.  It allows users to experience a simulated match, including goals, saves, cards, penalties, and shots on target, leading to a final result with a declared winner. The application aims to provide an engaging and informative experience, demonstrating front-end development skills through dynamic updates and a user-friendly interface.  This project serves as a portfolio piece demonstrating proficiency in HTML, CSS, and JavaScript.
 
 ## Features
 
-- **Team Customization:** Allows users to input and change the names of Team A and Team B before the match begins, promoting user engagement and personalization.
-- **Real-Time Match Simulation:** Simulates a football match with a dynamic timeline, updating the score, match time (in minutes), and key statistics in real-time.
-- **Comprehensive Statistics:** Displays comprehensive statistics during the simulation, including goals, shots on target, corners, penalties, red cards, and yellow cards, providing a detailed overview of the match progression.
-- **Match Timeline:** A chronological timeline displays key events like goals, cards, and substitutions as they occur during the simulated match, offering a narrative of the game.
-- **Final Result Display:** Clearly displays the final match result, including the score and the winning team (or a draw), ensuring clarity and completeness.
-- **Restart Functionality:** Provides a 'Restart' button that initiates a new match with reset statistics and timeline, allowing for multiple simulations.
-- **Intuitive User Interface:** Designed with a user-friendly interface that is responsive and easy to navigate, ensuring a positive user experience. The visual design includes a green, pitch-themed background.
-- **Clearly Labeled Elements:** All interactive elements, such as buttons and input fields, are clearly labeled to guide users through the application.
+- **Real-Time Match Simulation:** The core functionality simulating a football match with goals, saves, penalties, shots on target, yellow cards, and other events.
+- **Dynamic Match Timeline:** A chronological display of match events as they occur, providing a narrative of the simulated game.
+- **Real-Time Statistics Update:**  Match statistics (goals, shots on target, yellow cards, saves, penalties) are updated dynamically during the simulation, offering immediate feedback.
+- **Interactive Penalty/Shot on Target System:** The user guesses a number between 1-4 for each penalty or shot on target. A random number is generated. If the numbers match it is counted as a goal, otherwise a save.
+- **Clear Final Result:**  Displays the final score and declares the winning team at the end of the simulation.
+- **Restart Functionality:** A "Restart" button allows users to initiate a new match, resetting the simulation.
+- **Intuitive User Interface:** A simple and responsive design provides an enjoyable user experience, ensuring the application is easy to navigate and understand.
+- **Pink/Pitch-Themed Background:** A background color that simulates a football pitch, giving the app a nice immersive appearance.
 
 ## Technical Stack
 
 - Frontend: HTML5, CSS3, JavaScript
 - Libraries:
-    - None - application uses vanilla JavaScript
-- Data: None - the simulation is self-contained and does not require external data sources.
+    - **No external libraries (CDN-based or otherwise) were used to minimize complexity.**  All functionality is implemented using vanilla JavaScript to demonstrate core programming skills.
+- Data:
+    - None.  The application generates all data dynamically during the simulation.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Modern web browser (Chrome, Firefox, Safari, Edge)
-- Internet connection
+- Internet connection (although no CDN resources are used, an internet connection is generally assumed)
 
 ### Installation
 
-1.  Clone the repository: `git clone [repository URL]`
-2.  Navigate to the project directory: `cd [project directory]`
-3.  Open `index.html` in a web browser
-
-No build process or dependencies are needed, as the application is a pure client-side implementation using HTML, CSS, and JavaScript.
+1. Clone the repository:  `git clone [your repository URL]`
+2. Open `index.html` in a web browser:  Double-click the file or use the "Open with..." option.
+3. No build process or dependencies needed.
 
 ## Usage
 
 ### How to Use
 
-1.  **Team Name Input:** Enter the desired names for Team A and Team B in the provided input fields.
-2.  **Start Match:** Click the "Start Match" button to initiate the simulation.
-3.  **Observe Simulation:** Watch the match unfold in real-time. The score, clock, and statistics will update automatically. Events will be added to the timeline.
-4.  **View Result:** Once the match concludes (simulated time reaches 90 minutes), the final result will be displayed, indicating the winning team or a draw.
-5.  **Restart Match:** Click the "Restart" button to begin a new match with fresh statistics and a new timeline.  You can change team names at this point.
+1. **Start the Simulation:**  Open `index.html` in your browser.  The match simulation will begin automatically.
+2. **Observe the Timeline:**  The "Match Timeline" section will populate with events as they occur during the simulation.
+3. **View Statistics:** The "Match Statistics" section will update dynamically to reflect the current state of the game.
+4. **Penalties/Shots on Target:** When the application encounters a penalty or a shot on target, the user will be prompted to enter a number between 1 and 4 in the appropriate field. Once the user inputs the number and clicks the associated button, a random number is generated. If the two numbers match, the event is recorded as a goal, otherwise it is counted as a save.
+5. **View the Final Result:** Once the simulation completes, the final score and the winning team will be displayed.
+6. **Restart:** Click the "Restart" button to begin a new match simulation.
 
 ### Examples
 
-**Example 1: Simulating a Match Between "Home Team" and "Away Team"**
-
-1.  Enter "Home Team" in the Team A input field and "Away Team" in the Team B input field.
-2.  Click "Start Match".
-3.  Observe the simulation. The statistics and timeline will populate with simulated events.  After 90 simulated minutes, the final result will appear, showing which team won (or a draw).
-
-**Example 2: Restarting a Match After Initial Observation**
-
-1.  After observing a simulated match between two teams, click "Restart."
-2.  The match statistics and timeline will be reset, and the simulation will begin anew.
+1. **Normal Match Flow:** A typical match will display a sequence of events like "Goal for Team A", "Yellow Card for Player X", "Shot on target for Team B" until the end of the simulation, ultimately declaring a winner based on the final score. When the game reaches a penalty, or a shot on target the user is prompted to input a number between 1 and 4.
+2. **Restarting the Match:** After a match completes, clicking the "Restart" button will reset all statistics, clear the timeline, and start a brand new simulation from the beginning.
 
 ## Code Explanation
 
 ### Architecture
 
-The application follows a simple, single-page architecture, typical for simulations of this scale.  The core logic is contained within the `script.js` file, which handles the simulation, updates the UI, and manages the timeline.  The `index.html` file defines the structure and layout of the user interface, and the `style.css` file provides the visual styling, including the green, pitch-themed background. All the simulation logic is handled in the `script.js` file, making the `index.html` file purely for presentation and input.
+The application follows a basic Model-View-Controller (MVC) architectural pattern, although it's not strictly enforced.  The JavaScript code acts as the controller, managing the game logic and updating the view (HTML elements) based on the simulation results.
+
+- **Model:** The data representing the match state (scores, statistics, timeline events) is stored within JavaScript variables.
+- **View:** The HTML elements display the data to the user. JavaScript manipulates these elements to update the information dynamically.
+- **Controller:** The JavaScript functions handle user interactions (like the 'Restart' button) and drive the simulation logic, updating the model and view accordingly.
 
 ### Key Components
 
--   **`script.js` (Simulation Logic):** This file contains the core JavaScript code that drives the match simulation. It manages the match clock, generates random events (goals, cards, etc.), updates the statistics, and renders the events on the timeline. The main loop uses `setInterval` to simulate the passing of time.  We made the decision to keep all logic in this file for ease of deployment and project scope management.
+- **`simulateMatch()` Function:**  The core function that drives the entire simulation.  It uses `setInterval()` to simulate events occurring over time. This function contains the game logic (generating events, updating scores, etc.) and calls other functions to update the UI.
 
-    *   **Example Code Reference (Match Timer):**
+   ```javascript
+   function simulateMatch() {
+       matchInterval = setInterval(() => {
+           // Game logic (generating events, updating scores, etc.)
+           // ...
+           updateTimeline("Goal for Team A");
+           updateStatistics();
+           // ...
+           checkGameEnd();
+       }, 2000); // Adjust interval for simulation speed
+   }
+   ```
+   *Why:* This function encapsulates the core simulation logic, making it easier to manage the overall game flow.
+
+- **`updateTimeline(event)` Function:**  This function adds a new event to the match timeline, ensuring chronological order.  It dynamically creates a new `<li>` element and appends it to the `#timeline` `<ul>`.
+
+   ```javascript
+   function updateTimeline(event) {
+       const timeline = document.getElementById('timeline');
+       const listItem = document.createElement('li');
+       listItem.textContent = event;
+       timeline.appendChild(listItem);
+       timeline.scrollTop = timeline.scrollHeight; // Scroll to bottom
+   }
+   ```
+   *Why:*  Separating the timeline update logic improves code readability and maintainability. The `timeline.scrollTop = timeline.scrollHeight;` line ensures the user always sees the latest events at the bottom of the timeline.
+
+- **`handlePenalty(team)` and `handleShotOnTarget(team)` Functions:** This function handles the user input for penalties. It takes the users number input, generates a random number, and if the numbers are equal, adds a goal to the relevant team.
 
     ```javascript
-    let matchTime = 0;
-    let matchInterval;
+    function handlePenalty(team) {
+    let userGuess = parseInt(document.getElementById('penaltyInput').value);
+    let randomNum = Math.floor(Math.random() * 4) + 1;
 
-    function startMatch() {
-      matchInterval = setInterval(() => {
-        matchTime++;
-        updateMatchTime();
-        // ... other simulation logic
-      }, 1000); // Update every 1 second (simulated minute)
+    if (userGuess < 1 || userGuess > 4 || isNaN(userGuess)) {
+        alert('Please enter a number between 1 and 4.');
+        return;
+    }
+    if (userGuess === randomNum) {
+        if (team === "A") {
+            teamAScore++;
+        } else {
+            teamBScore++;
+        }
+        updateTimeline("Goal for Team " + team);
+    } else {
+        updateTimeline("Save!");
+    }
+    updateStatistics();
     }
     ```
-
--   **`index.html` (User Interface):**  This file defines the structure and layout of the user interface. It includes input fields for team names, display elements for the score, statistics, and timeline, as well as buttons to start and restart the match.  The HTML structure uses semantic elements like `<header>`, `<main>`, and `<footer>` for better accessibility and maintainability.  It uses specific `id` attributes on elements that are targeted by the JavaScript for updates.
-    * **Example Code Reference (Statistics Display):**
-
-    ```html
-    <div class="statistics">
-        <p>Goals A: <span id="goals-a">0</span></p>
-        <p>Goals B: <span id="goals-b">0</span></p>
-        </div>
-    ```
--   **`style.css` (Visual Styling):** This file defines the visual appearance of the application. It includes styles for the overall layout, fonts, colors, and the green, pitch-themed background. The CSS is structured to enhance readability, using comments to organize and label specific sections. Specific selectors target elements based on their `id` and `class` attributes, ensuring proper styling of the game UI.
-    * **Example Code Reference (Pitch Background):**
-
-    ```css
-    body {
-      background-color: #6aa84f; /* Green Pitch Color */
-      font-family: sans-serif;
-    }
-    ```
+    *Why:* The penalty and shot on target functions make the simulation interactive and more engaging.
 
 ### Algorithm/Logic
 
-The core of the simulation is based on probabilistic events. Here's a simplified overview:
+The core algorithm centers around the `simulateMatch()` function.
 
-1.  **Match Clock:** A timer increments every second (representing a minute of the match) using `setInterval`.
+1.  **Simulation Loop:** `setInterval()` is used to create a recurring loop that simulates the passage of time within the match.
+2.  **Event Generation:** Within the loop, random events (goals, yellow cards, shots on target, penalties) are generated.  The probability of each event occurring is determined randomly.
+3.  **Statistics Update:**  When an event occurs, the corresponding statistics variables (e.g., `teamAScore`, `yellowCards`) are updated.
+4.  **Timeline Update:**  A description of the event is added to the match timeline using the `updateTimeline()` function.
+5.  **UI Update:**  The `updateStatistics()` function updates the HTML elements to reflect the current state of the game (scores, statistics, timeline).
+6.  **Game End Check:** After each "tick" of the simulation, the `checkGameEnd()` function determines if the match has reached its conclusion (e.g., after a set time period).
+7.  **Penalty/Shot on Target:** If a penalty or a shot on target event occurs, the user input functionality is called, the two numbers are compared, and the result is shown on the timeline.
 
-2.  **Event Generation:** At each minute, the code generates random numbers to determine if certain events occur:
-    *   **Goal:** A higher probability is assigned to goals occurring in standard intervals.
-    *   **Shot on Target, Corner, Card:** These events are generated with varying probabilities.
-
-3.  **Statistics Update:**  When an event occurs, the corresponding statistic is incremented and the UI is updated using `document.getElementById` to find and modify the relevant elements.
-
-4.  **Timeline Update:** An event is added to the timeline (a dynamically created list of messages) with the corresponding match time.
-
-5.  **Match End:**  The simulation ends when the match time reaches 90 minutes. The `clearInterval` function is used to stop the `matchInterval`.
-
-6.  **Winner Determination:**  After the simulation ends the code determines the winner based on the scores.  If the scores are equal the match is declared a draw.
-
-    *   **Example Code Reference (Goal Event Logic):**
-
-    ```javascript
-    function simulateEvent() {
-      if (Math.random() < 0.02) { // 2% chance of a goal
-        // Determine which team scored
-        const team = Math.random() < 0.5 ? 'a' : 'b';
-        if (team === 'a') {
-          goalsA++;
-          updateScore();
-          addTimelineEvent(`${matchTime}' Goal! Team A`);
-        } else {
-          goalsB++;
-          updateScore();
-          addTimelineEvent(`${matchTime}' Goal! Team B`);
-        }
-      }
-    }
-    ```
+The decision to use `setInterval()` was made to simplify the simulation loop and avoid more complex asynchronous programming patterns. A different approach might involve a more sophisticated event queue system or asynchronous operations (e.g., using `setTimeout` and Promises for more control).
 
 ### Error Handling
 
-The application uses basic error handling mechanisms.  For instance, input validation is performed to ensure that team names are not empty. While the simulation is primarily client-side, robust error handling is included.
+The application implements basic error handling:
 
-```javascript
-//Example Error handling
-function validateTeamNames(teamNameA, teamNameB) {
-  if (!teamNameA || !teamNameB) {
-    alert("Please enter names for both teams.");
-    return false;
-  }
-  return true;
-}
-```
+-   **Invalid User Input:** The application checks if the user has inputted a number between 1 and 4. If the number is not in range, or a non-numerical value is inputted, an alert prompts the user to input a valid value. This avoids the simulation crashing.
 
 ## Browser Compatibility
 
--   Chrome: ✅
--   Firefox: ✅
--   Safari: ✅
--   Edge: ✅
+- Chrome: ✅
+- Firefox: ✅
+- Safari: ✅
+- Edge: ✅
 
 ## Performance Considerations
 
--   Page load time: < 2s
--   Responsive design: Yes - The application uses a flexible layout that adapts to different screen sizes.
--   Accessibility: WCAG 2.1 AA - The application uses semantic HTML and ARIA attributes to improve accessibility for users with disabilities.
+- Page load time: < 2s (Very minimal resources)
+- Responsive design:  While not specifically designed for smaller screens, the application layout adapts reasonably well due to the simple, linear design.
+- Accessibility: WCAG 2.1 AA (Basic semantic HTML structure is used, but more rigorous accessibility testing and improvements would be required for full compliance).
 
 ## Future Improvements
 
--   **More Detailed Simulation:** Enhance the simulation algorithm to include more realistic events, such as player injuries, substitutions, and tactical changes.
--   **Visual Enhancements:** Improve the visual appearance with animations and more detailed graphics.
--   **User Configuration:** Allow users to configure match parameters, such as match duration, difficulty, and team strengths.
--   **Sound Effects:** Add sound effects to enhance the user experience, such as crowd noise, goal celebrations, and whistle sounds.
--   **Player Attributes:** Implement player specific attributes and let the attributes affect the event probability.
+- **Responsive Design:** Implement a responsive layout using CSS media queries to ensure optimal viewing on various screen sizes.
+- **More Sophisticated Event Generation:** Implement a more realistic event generation system, considering factors like team skill levels and game situations.  This could involve using a probability distribution to weight the likelihood of different events.
+- **Sound Effects:** Add sound effects to enhance the user experience (e.g., a goal sound, a whistle sound).
+- **User Customization:** Allow users to customize team names and colors.
+- **Implement a more sophisticated error handling system.**
 
 ## License
 
