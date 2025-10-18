@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Match Simulator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #66bb6a; /* Green/Pitch-themed background */
+            font-family: sans-serif;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #match-timeline {
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-top: 10px;
+        }
+        .team-name {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Football Match Simulator</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="team-a-name">Team A Name:</label>
+                    <input type="text" class="form-control team-name" id="team-a-name" value="Team A">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="team-b-name">Team B Name:</label>
+                    <input type="text" class="form-control team-name" id="team-b-name" value="Team B">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button id="start-button" class="btn btn-primary">Start Match</button>
+                <button id="restart-button" class="btn btn-secondary" style="display:none;">Restart Match</button>
+            </div>
+        </div>
+
+        <div id="match-area" style="display:none;">
+            <h2 class="text-center">Match in Progress</h2>
+
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <h3 id="team-a-display">Team A</h3>
+                    <p>Goals: <span id="team-a-goals">0</span></p>
+                    <p>Shots on Target: <span id="team-a-shots">0</span></p>
+                    <p>Corners: <span id="team-a-corners">0</span></p>
+                    <p>Penalties: <span id="team-a-penalties">0</span></p>
+                    <p>Red Cards: <span id="team-a-reds">0</span></p>
+                     <p>Green Cards: <span id="team-a-greens">0</span></p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <h3 id="team-b-display">Team B</h3>
+                    <p>Goals: <span id="team-b-goals">0</span></p>
+                    <p>Shots on Target: <span id="team-b-shots">0</span></p>
+                    <p>Corners: <span id="team-b-corners">0</span></p>
+                    <p>Penalties: <span id="team-b-penalties">0</span></p>
+                    <p>Red Cards: <span id="team-b-reds">0</span></p>
+                    <p>Green Cards: <span id="team-b-greens">0</span></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>Time: <span id="match-time">0</span> minutes</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Match Timeline</h4>
+                    <div id="match-timeline"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                 <div class="col-md-12 text-center">
+                    <h2 id="match-result"></h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize variables
+            let teamAName = "Team A";
+            let teamBName = "Team B";
+            let teamAGoals = 0;
+            let teamBGoals = 0;
+            let teamAShots = 0;
+            let teamBShots = 0;
+            let teamACorners = 0;
+            let teamBCorners = 0;
+            let teamAPenalties = 0;
+            let teamBPenalties = 0;
+            let teamAReds = 0;
+            let teamBReds = 0;
+            let teamAGreens = 0;
+            let teamBGreens = 0;
+            let matchTime = 0;
+            let matchInterval;
+            let timeline = [];
+
+            // Function to update the display
+            function updateDisplay() {
+                $("#team-a-display").text(teamAName);
+                $("#team-b-display").text(teamBName);
+                $("#team-a-goals").text(teamAGoals);
+                $("#team-b-goals").text(teamBGoals);
+                $("#team-a-shots").text(teamAShots);
+                $("#team-b-shots").text(teamBShots);
+                $("#team-a-corners").text(teamACorners);
+                $("#team-b-corners").text(teamBCorners);
+                $("#team-a-penalties").text(teamAPenalties);
+                $("#team-b-penalties").text(teamBPenalties);
+                $("#team-a-reds").text(teamAReds);
+                $("#team-b-reds").text(teamBReds);
+                $("#team-a-greens").text(teamAGreens);
+                $("#team-b-greens").text(teamBGreens);
+                $("#match-time").text(matchTime);
+
+                // Update the timeline
+                let timelineHtml = "";
+                for (let i = 0; i < timeline.length; i++) {
+                    timelineHtml += "<p>" + timeline[i] + "</p>";
+                }
+                $("#match-timeline").html(timelineHtml);
+                $("#match-timeline").scrollTop($("#match-timeline")[0].scrollHeight); // Scroll to bottom
+            }
+
+            // Function to simulate an event
+            function simulateEvent() {
+                matchTime++;
+                let event = Math.random();
+
+                if (event < 0.1) { // Goal for Team A
+                    teamAGoals++;
+                    timeline.push("Minute " + matchTime + ": GOAL! " + teamAName + " scores!");
+                } else if (event < 0.2) { // Goal for Team B
+                    teamBGoals++;
+                    timeline.push("Minute " + matchTime + ": GOAL! " + teamBName + " scores!");
+                } else if (event < 0.3) { // Shot on Target for Team A
+                    teamAShots++;
+                    timeline.push("Minute " + matchTime + ": Shot on target for " + teamAName);
+                } else if (event < 0.4) { // Shot on Target for Team B
+                    teamBShots++;
+                    timeline.push("Minute " + matchTime + ": Shot on target for " + teamBName);
+                } else if (event < 0.5) { // Corner for Team A
+                    teamACorners++;
+                    timeline.push("Minute " + matchTime + ": Corner for " + teamAName);
+                } else if (event < 0.6) { // Corner for Team B
+                    teamBCorners++;
+                    timeline.push("Minute " + matchTime + ": Corner for " + teamBName);
+                } else if (event < 0.65) { // Penalty for Team A
+                    teamAPenalties++;
+                    timeline.push("Minute " + matchTime + ": Penalty for " + teamAName);
+                } else if (event < 0.70) { // Penalty for Team B
+                    teamBPenalties++;
+                    timeline.push("Minute " + matchTime + ": Penalty for " + teamBName);
+                }
+                else if (event < 0.72) { // Red card for Team A
+                    teamAReds++;
+                    timeline.push("Minute " + matchTime + ": Red card for " + teamAName);
+                }
+                else if (event < 0.74) { // Red card for Team B
+                    teamBReds++;
+                    timeline.push("Minute " + matchTime + ": Red card for " + teamBName);
+                }
+                else if (event < 0.76) { // Green card for Team A
+                    teamAGreens++;
+                    timeline.push("Minute " + matchTime + ": Green card for " + teamAName);
+                }
+                else if (event < 0.78) { // Green card for Team B
+                    teamBGreens++;
+                    timeline.push("Minute " + matchTime + ": Green card for " + teamBName);
+                }
+                else {
+                    timeline.push("Minute " + matchTime + ": Play continues.");
+                }
+
+                updateDisplay();
+
+                // Check for end of match
+                if (matchTime >= 90) {
+                    clearInterval(matchInterval);
+                    $("#match-result").text("Match Finished! " + getMatchResult());
+                    $("#restart-button").show();
+                }
+            }
+
+            // Function to get the match result
+            function getMatchResult() {
+                if (teamAGoals > teamBGoals) {
+                    return teamAName + " Wins!";
+                } else if (teamBGoals > teamAGoals) {
+                    return teamBName + " Wins!";
+                } else {
+                    return "It's a Draw!";
+                }
+            }
+
+            // Start Match Button
+            $("#start-button").click(function() {
+                teamAName = $("#team-a-name").val() || "Team A";
+                teamBName = $("#team-b-name").val() || "Team B";
+                teamAGoals = 0;
+                teamBGoals = 0;
+                teamAShots = 0;
+                teamBShots = 0;
+                teamACorners = 0;
+                teamBCorners = 0;
+                teamAPenalties = 0;
+                teamBPenalties = 0;
+                teamAReds = 0;
+                teamBReds = 0;
+                teamAGreens = 0;
+                teamBGreens = 0;
+                matchTime = 0;
+                timeline = [];
+
+                updateDisplay();
+                $("#match-area").show();
+                $("#start-button").hide();
+                $("#restart-button").hide();
+                $("#match-result").text("");
+
+                matchInterval = setInterval(simulateEvent, 2000); // Simulate every 2 seconds
+            });
+
+            // Restart Match Button
+            $("#restart-button").click(function() {
+                 clearInterval(matchInterval);
+                $("#match-area").hide();
+                $("#start-button").show();
+                $(this).hide();
+                $("#match-result").text("");
+
+                 //Reset values
+                teamAName = "Team A";
+                teamBName = "Team B";
+                $("#team-a-name").val(teamAName);
+                $("#team-b-name").val(teamBName);
+                teamAGoals = 0;
+                teamBGoals = 0;
+                teamAShots = 0;
+                teamBShots = 0;
+                teamACorners = 0;
+                teamBCorners = 0;
+                teamAPenalties = 0;
+                teamBPenalties = 0;
+                teamAReds = 0;
+                teamBReds = 0;
+                teamAGreens = 0;
+                teamBGreens = 0;
+                matchTime = 0;
+                timeline = [];
+
+                updateDisplay();
+
+            });
+        });
+    </script>
+</body>
+</html>
